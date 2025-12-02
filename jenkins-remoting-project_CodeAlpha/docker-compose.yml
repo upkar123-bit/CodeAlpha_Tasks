@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  jenkins-master:
+    build: ./jenkins-master
+    container_name: jenkins-master
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"   # JNLP Port for Agents
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+  jenkins-agent:
+    build: ./jenkins-agent
+    container_name: jenkins-agent
+    restart: unless-stopped
+    depends_on:
+      - jenkins-master
+    environment:
+      JENKINS_URL: "http://jenkins-master:8080"
+      JENKINS_AGENT_NAME: "remote-agent-1"
+      JENKINS_AGENT_SECRET: "TO_BE_FILLED_AFTER_SETUP"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # Agent can run docker builds
+
+volumes:
+  jenkins_home:

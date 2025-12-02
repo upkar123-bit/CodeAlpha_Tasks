@@ -1,0 +1,26 @@
+pipeline {
+    agent { label 'remote' }
+
+    stages {
+        stage('Check Running Node') {
+            steps {
+                sh 'echo "Running on Remote Agent"'
+                sh 'hostname'
+                sh 'uname -a'
+            }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                git 'https://github.com/git/git'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Build Something') {
+            steps {
+                sh 'echo building...'
+            }
+        }
+    }
+}

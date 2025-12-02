@@ -1,0 +1,8 @@
+workflow-aggregator
+git
+github-branch-source
+ssh-slaves
+mailer
+credentials
+configuration-as-code
+docker-plugin
